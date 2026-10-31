@@ -1,0 +1,39 @@
+# Pipelines and evaluations of the paper.
+#
+# A pipeline = a frozen detector + the appearance encoder + candidate caches of its training
+# set, on which the heads (3 seeds per variant) and CEN (3 seeds) are trained.
+# Paths are relative to --caches and --checkpoints (layout written by tools/export_paper_artifacts.py,
+# or by scripts/extract_candidates.py + scripts/train_head.py + scripts/train_cen.py).
+#
+# Head variants:  geoapp = geometry + appearance (MAMM-MD), geo = w/o appearance, appo = w/o geometry.
+# pos_frac = fraction of training views with a TP in each batch (= training prevalence).
+
+prior: {slope: 1.0, intercept: 0.0, sigma: 10.0}     # anatomical prior d_MLO = d_CC, sigma 10 mm
+seeds: [0, 1, 2]
+bootstrap: {resamples: 1000, seed: 0}
+
+pipelines:
+  retinanet_cbis:      {detector: retinanet, train_set: cbis,    pos_frac: 0.23,   variants: [geoapp, geo, appo]}
+  retinanet_cbis_b3:   {detector: retinanet, train_set: cbis_b3, pos_frac: 0.195,  variants: [geoapp, geo]}
+  retinanet_vindr:     {detector: retinanet, train_set: vindr,   pos_frac: 0.0625, variants: [geoapp, geo, appo]}
+  detr_cbis:           {detector: detr,      train_set: cbis,    pos_frac: 0.23,   variants: [geoapp, geo, appo]}
+  detr_cbis_b3:        {detector: detr,      train_set: cbis_b3, pos_frac: 0.195,  variants: [geoapp, geo]}
+  detr_vindr:          {detector: detr,      train_set: vindr,   pos_frac: 0.0625, variants: [geoapp, geo, appo]}
+
+# convention: all = every mass is a target; strict = BI-RADS <= 2 masses are background
+# (VinDr-Mammo annotates BI-RADS 3-5 only). CBIS -> VinDr uses the *_b3 pipelines (source
+# detector, head and CEN trained on BI-RADS >= 3 masses: the annotation scope of VinDr;
+# the appearance encoder is the same for all pipelines).
+evaluations:
+  - {name: "RetinaNet CBIS -> CBIS",       pipeline: retinanet_cbis,    test: cbis,     convention: all}
+  - {name: "RetinaNet CBIS -> VinDr",      pipeline: retinanet_cbis_b3, test: vindr,    convention: all}
+  - {name: "RetinaNet CBIS -> INbreast",   pipeline: retinanet_cbis,    test: inbreast, convention: all}
+  - {name: "RetinaNet VinDr -> CBIS",      pipeline: retinanet_vindr,   test: cbis,     convention: strict}
+  - {name: "RetinaNet VinDr -> VinDr",     pipeline: retinanet_vindr,   test: vindr,    convention: all}
+  - {name: "RetinaNet VinDr -> INbreast",  pipeline: retinanet_vindr,   test: inbreast, convention: strict}
+  - {name: "DETR CBIS -> CBIS",            pipeline: detr_cbis,         test: cbis,     convention: all}
+  - {name: "DETR CBIS -> VinDr",           pipeline: detr_cbis_b3,      test: vindr,    convention: all}
+  - {name: "DETR CBIS -> INbreast",        pipeline: detr_cbis,         test: inbreast, convention: all}
+  - {name: "DETR VinDr -> CBIS",           pipeline: detr_vindr,        test: cbis,     convention: strict}
+  - {name: "DETR VinDr -> VinDr",          pipeline: detr_vindr,        test: vindr,    convention: all}
+  - {name: "DETR VinDr -> INbreast",       pipeline: detr_vindr,        test: inbreast, convention: strict}

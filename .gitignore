@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Mamm_MD
+*.pt
+*.pth
+out_excl/
