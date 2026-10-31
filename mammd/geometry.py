@@ -16,7 +16,7 @@ import cv2
 import numpy as np
 
 # The nipple must lie on (or within a few mm of) the breast mask, otherwise the axis is
-# discarded and the view is left unpaired. Measured on CBIS-DDSM-IRMA: median 3.1 mm, p95
+# discarded and the view is left unpaired. Measured on MV-DDSM: median 3.1 mm, p95
 # 10.6 mm, then a gap to p99 29.9 mm; 15 mm flags about 2% of the views.
 NIPPLE_TO_MASK_MAX_MM = 15.0
 

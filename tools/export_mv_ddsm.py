@@ -1,14 +1,14 @@
-"""Export the CBIS-DDSM-IRMA release files from the internal build (provenance only).
+"""Export the MV-DDSM release files from the internal build (provenance only).
 
 This script is NOT needed to use the dataset. It documents how the released files
-in data/cbis_ddsm_irma/ were produced from the internal build of the dataset
+in data/mv_ddsm/ were produced from the internal build of the dataset
 (breast_cancer_clean/src/cbis_ddsm_multi), and it only runs on the machine where
-that build lives. Users start from the released files and data/convert_cbis_ddsm_irma.py.
+that build lives. Users start from the released files and scripts/convert_mv_ddsm.py.
 
-Outputs (data/cbis_ddsm_irma/):
+Outputs (data/mv_ddsm/):
     correspondence_cases.csv   one row per CBIS-DDSM patient: matched DDSM case or none
     correspondence_images.csv  one row per CBIS-DDSM full mammogram: TCIA series + IRMA file
-    annotations.json           every image of CBIS-DDSM-IRMA: source, role, split, lesions,
+    annotations.json           every image of MV-DDSM: source, role, split, lesions,
                                BI-RADS, pathology, breast geometry
 """
 from __future__ import annotations
@@ -33,7 +33,7 @@ CBIS_ROOT = "/storage/edouard/data/retinanet_dcm"          # CBIS-DDSM full mamm
 IRMA_ROOT = "/storage2/edouard/data/DDSM_IRMA"
 MINI_DDSM = "/storage/edouard/data/miniddsm2/MINI-DDSM-Complete-PNG-16"
 CBIS_META = os.path.join(BUILD_SRC, "cbis_meta")
-OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "cbis_ddsm_irma")
+OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "mv_ddsm")
 
 # Corrections found after the dataset build (pixel check and visual review, 2026-10-29). They are
 # metadata only: annotations.json keeps the breast grouping of the dataset used in the paper.
@@ -383,7 +383,7 @@ def main():
                 e["role_paper"], e["role"] = "negative", "support"
                 n_support += 1
     print(f"{n_support} DDSM negative views ipsilateral to a mass -> support")
-    info = dict(name="CBIS-DDSM-IRMA", version="1.0", date=str(datetime.date.today()),
+    info = dict(name="MV-DDSM", version="1.0", date=str(datetime.date.today()),
                 description="CBIS-DDSM full mammograms completed with the missing views and normal exams of the "
                             "DDSM release distributed by RWTH Aachen (IRMA), converted to the CBIS-DDSM intensity "
                             "pipeline. Coordinates are in native pixels of each image.",

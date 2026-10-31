@@ -1,10 +1,10 @@
-"""Build the CBIS-DDSM-IRMA images from CBIS-DDSM (TCIA) and the IRMA release of DDSM.
+"""Build the MV-DDSM images from CBIS-DDSM (TCIA) and the IRMA release of DDSM.
 
 Inputs
   --cbis-root   CBIS-DDSM as downloaded from TCIA (any folder layout: DICOM files are found by
                 their SeriesInstanceUID, listed in annotations.json)
   --irma-root   DDSM release of RWTH Aachen / IRMA (folders cancer_*/benign_*/normal_*, 16-bit PNG)
-  --annotations data/cbis_ddsm_irma/annotations.json
+  --annotations data/mv_ddsm/annotations.json
 
 Outputs (--out)
   images/       full-resolution 16-bit PNG
@@ -14,8 +14,8 @@ Outputs (--out)
                 (INTER_AREA), so native coordinates map to it by `scale_2048` with no offset.
                 This is the input of the paper's detectors.
 
-    python scripts/convert_cbis_ddsm_irma.py --cbis-root /data/CBIS-DDSM --irma-root /data/DDSM_IRMA \
-        --out /data/CBIS-DDSM-IRMA --jobs 16
+    python scripts/convert_mv_ddsm.py --cbis-root /data/CBIS-DDSM --irma-root /data/DDSM_IRMA \
+        --out /data/MV-DDSM --jobs 16
 """
 from __future__ import annotations
 
@@ -105,7 +105,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--cbis-root", required=True)
     ap.add_argument("--irma-root", required=True)
-    ap.add_argument("--annotations", default=os.path.join(HERE, "..", "data", "cbis_ddsm_irma", "annotations.json"))
+    ap.add_argument("--annotations", default=os.path.join(HERE, "..", "data", "mv_ddsm", "annotations.json"))
     ap.add_argument("--out", required=True)
     ap.add_argument("--jobs", type=int, default=8)
     ap.add_argument("--no-full", action="store_true", help="only write images_2048/")

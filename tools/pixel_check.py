@@ -9,7 +9,7 @@ in the breast tells whether it is the same film with a different storage scale.
 Letter-A cases whose scanner is unknown (no DDSM .ics) are calibrated with both MGH formulas
 (DBA, Howtek); the one reproducing CBIS-DDSM gives the scanner.
 
-Output: <build>/out_excl/pixel_check.csv, read by export_cbis_ddsm_irma.py.
+Output: <build>/out_excl/pixel_check.csv, read by export_mv_ddsm.py.
 """
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ from mammd.data.ddsm_calibration import calibrate  # noqa: E402
 
 BUILD = "/home/chatzopoulos/edouard/breast_cancer_clean/src/cbis_ddsm_multi/out_excl"
 IRMA = "/storage2/edouard/data/DDSM_IRMA"
-CASES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "cbis_ddsm_irma", "correspondence_cases.csv")
+CASES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "mv_ddsm", "correspondence_cases.csv")
 # found by this check or by visual review, not by the content matcher
 EXTRA = {"P_00192_RIGHT_CC": ("C_0478", "benign_13/case0478/C_0478_1.RIGHT_CC.LJPEG.png", "lumisys"),
          "P_01264_RIGHT_MLO": ("A_1500@cancer_08", "cancer_08/case1500/A_1500_1.RIGHT_MLO.LJPEG.png", None)}

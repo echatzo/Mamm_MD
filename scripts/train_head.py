@@ -5,7 +5,7 @@
 
 Variants: geoapp (MAMM-MD), geo (w/o appearance), appo (w/o geometry).
 --pos-frac: fraction of views with a true positive in each batch of 16, set to the training
-prevalence (0.23 CBIS-DDSM-IRMA, 0.195 its BI-RADS >= 3 version, 0.0625 VinDr-Mammo).
+prevalence (0.23 MV-DDSM, 0.195 its BI-RADS >= 3 version, 0.0625 VinDr-Mammo).
 """
 from __future__ import annotations
 

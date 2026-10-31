@@ -1,8 +1,8 @@
-# CBIS-DDSM-IRMA
+# MV-DDSM
 
 CBIS-DDSM [1] gives, for each curated patient, only the views of the breast that carries the
 annotated finding. It has no normal exams, and for most patients one of the two views (CC or MLO)
-of the breast is missing. CBIS-DDSM-IRMA completes it with the views and normal exams of the
+of the breast is missing. MV-DDSM completes it with the views and normal exams of the
 original DDSM [2], taken from the release distributed by RWTH Aachen (IRMA) [3]. All the views are
 converted to the CBIS-DDSM intensity pipeline.
 
@@ -14,7 +14,7 @@ converted to the CBIS-DDSM intensity pipeline.
 | **total** | **8,972** |
 
 This folder only holds annotations. The images are rebuilt from the two public sources with
-`scripts/convert_cbis_ddsm_irma.py`.
+`scripts/convert_mv_ddsm.py`.
 
 ## Files
 
@@ -22,7 +22,7 @@ This folder only holds annotations. The images are rebuilt from the two public s
 |---|---|
 | `correspondence_cases.csv` | one row per CBIS-DDSM patient: matched DDSM case and volume, scanner, match method, pixel verification, same dimensions |
 | `correspondence_images.csv` | one row per CBIS-DDSM full mammogram: TCIA identifiers (PatientID, Study/Series UID), matched IRMA file |
-| `annotations.json` | every image of CBIS-DDSM-IRMA: source, role, split, lesions, breast geometry |
+| `annotations.json` | every image of MV-DDSM: source, role, split, lesions, breast geometry |
 
 ### `annotations.json`
 
@@ -107,7 +107,7 @@ All 1,440 matches are therefore verified (`pixel_verified`, and per image `pixel
 (`same_dimensions`). The same check gives the scanner of 119 letter-A cases that have no DDSM .ics file
 (`scanner_source = pixel calibration`; all Howtek MGH).
 
-**Corrections made after the paper.** By default, `mammd.data.cbis_ddsm_irma` reproduces the dataset
+**Corrections made after the paper.** By default, `mammd.data.mv_ddsm` reproduces the dataset
 of the paper exactly. `corrected=True` applies the following corrections:
 - **Positive views.** In the paper, a view is positive only when CBIS-DDSM lists a mass for it. As a
   result, 7 hand-added masses on 6 views were unused: these views were left out of the
@@ -136,7 +136,7 @@ of the paper exactly. `corrected=True` applies the following corrections:
 
 Still missing: the masses on the second view of P_01467 R, P_00652 L, P_00591 R (test) and P_01567 L (train).
 
-On the CBIS-DDSM-IRMA test set, the positive-view correction alone changes LARGE by 0.1-0.5 points for
+On the MV-DDSM test set, the positive-view correction alone changes LARGE by 0.1-0.5 points for
 every method and none of the comparisons of the paper. The support partners were not evaluated yet.
 
 **Known issues** (field `note` in `annotations.json`; this version keeps the breast grouping of the
@@ -172,8 +172,8 @@ format-converted.
 ## Building the images
 
 ```
-python scripts/convert_cbis_ddsm_irma.py --cbis-root <CBIS-DDSM download> --irma-root <DDSM IRMA release> \
-    --out <CBIS-DDSM-IRMA> --jobs 16
+python scripts/convert_mv_ddsm.py --cbis-root <CBIS-DDSM download> --irma-root <DDSM IRMA release> \
+    --out <MV-DDSM> --jobs 16
 ```
 - Writes `images/` (full resolution, 16-bit PNG) and `images_2048/` (padded bottom/right to a square,
   resized to 2048 × 2048, the input of the detectors).

@@ -1,6 +1,6 @@
 {
  "info": {
-  "name": "CBIS-DDSM-IRMA",
+  "name": "MV-DDSM",
   "version": "1.0",
   "date": "2026-10-30",
   "description": "CBIS-DDSM full mammograms completed with the missing views and normal exams of the DDSM release distributed by RWTH Aachen (IRMA), converted to the CBIS-DDSM intensity pipeline. Coordinates are in native pixels of each image.",

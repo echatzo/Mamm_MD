@@ -1,7 +1,7 @@
-"""CBIS-DDSM-IRMA: mass detection views and their CC <-> MLO links.
+"""MV-DDSM: mass detection views and their CC <-> MLO links.
 
-Reads data/cbis_ddsm_irma/annotations.json and the images_2048/ folder written by
-scripts/convert_cbis_ddsm_irma.py.
+Reads data/mv_ddsm/annotations.json and the images_2048/ folder written by
+scripts/convert_mv_ddsm.py.
 
 Mass-detection population of the paper (per split):
   positive  CBIS-DDSM image with at least one mass (boxes = its mass lesions)
@@ -15,7 +15,7 @@ negative: the annotation scope of VinDr-Mammo, used for the CBIS -> VinDr transf
 Views are grouped into breasts (exam, laterality). A breast with exactly one CC and one MLO,
 both with a usable depth axis, is a pair; any other view is a single-view item.
 
-    ds = MultiviewBreasts("annotations.json", "/data/CBIS-DDSM-IRMA/images_2048", "test")
+    ds = MultiviewBreasts("annotations.json", "/data/MV-DDSM/images_2048", "test")
     views = ds[0]                      # [cc, mlo] or [view]
     images, targets, ctx = collate_breasts([ds[0], ds[1]])
 """

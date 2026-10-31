@@ -1,7 +1,7 @@
-"""Build a candidate cache for one split of CBIS-DDSM-IRMA.
+"""Build a candidate cache for one split of MV-DDSM.
 
 RetinaNet (detector run here):
-    python scripts/extract_candidates.py --split test --images /data/CBIS-DDSM-IRMA/images_2048 \
+    python scripts/extract_candidates.py --split test --images /data/MV-DDSM/images_2048 \
         --detector checkpoints/detectors/retinanet_cbis.pt --encoder checkpoints/encoders/patch_classifier_cbis.pt \
         --out caches/retinanet_cbis/test_cbis.pt
 Deformable DETR (detections computed with detrex, scripts/detr_inference.py):
@@ -19,7 +19,7 @@ from torch.utils.data import DataLoader
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from mammd.candidates import build_patch_encoder, extract  # noqa: E402
-from mammd.data.cbis_ddsm_irma import MultiviewBreasts, collate_breasts  # noqa: E402
+from mammd.data.mv_ddsm import MultiviewBreasts, collate_breasts  # noqa: E402
 from mammd.detectors.retinanet import RetinaNetDetector  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -27,7 +27,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--annotations", default=os.path.join(HERE, "..", "data", "cbis_ddsm_irma", "annotations.json"))
+    ap.add_argument("--annotations", default=os.path.join(HERE, "..", "data", "mv_ddsm", "annotations.json"))
     ap.add_argument("--images", required=True, help="images_2048/ folder of the converted dataset")
     ap.add_argument("--split", required=True, choices=("train", "val", "test"))
     ap.add_argument("--birads-min", type=int, default=None)

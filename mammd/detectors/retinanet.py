@@ -7,7 +7,7 @@
             (sizes 32 / 64 / 128 / 256 at 3 scales, aspect ratios 0.5 / 1 / 2)
   output    at most 10 detections per image after NMS (IoU 0.3), score threshold 0.05
 
-Input: list of (3, 2048, 2048) tensors normalised to [-1, 1] (see mammd.data.cbis_ddsm_irma); no
+Input: list of (3, 2048, 2048) tensors normalised to [-1, 1] (see mammd.data.mv_ddsm); no
 resizing is done by the model.
 
     det = RetinaNetDetector.from_checkpoint("checkpoints/detectors/retinanet_cbis.pt").cuda()

@@ -6,10 +6,10 @@ the nipple along the nipple - chest wall axis) and the appearance of the candida
 
 ```
 code_paper/
-  data/cbis_ddsm_irma/        CBIS-DDSM-IRMA: correspondence CSVs, annotations.json, dataset card
+  data/mv_ddsm/               MV-DDSM: correspondence CSVs, annotations.json, dataset card
   mammd/                      the package
     data/ddsm_calibration.py    DDSM optical-density calibration (IRMA -> CBIS-DDSM intensities)
-    data/cbis_ddsm_irma.py      mass-detection views, CC <-> MLO pairing, multiview dataloader
+    data/mv_ddsm.py             mass-detection views, CC <-> MLO pairing, multiview dataloader
     geometry.py                 nipple-axis depth
     detectors/retinanet.py      DINOv3 ConvNeXt-B + FPN RetinaNet (inference)
     candidates.py               candidate caches (detections, depth, size, TP labels, crop embeddings)
@@ -17,7 +17,7 @@ code_paper/
     rescoring.py                product baseline, training and inference of the head
     cen.py                      CEN comparator (official recipe on our candidates)
     eval/froc.py, protocol.py   matching rule, FROC, LARGE, protocol, breast-level bootstrap, Holm
-  scripts/                    convert_cbis_ddsm_irma, extract_candidates, train_head, train_cen, evaluate
+  scripts/                    convert_mv_ddsm, extract_candidates, train_head, train_cen, evaluate
   configs/paper.yaml          the 6 pipelines and 12 evaluations of the paper
   tools/                      provenance only: how the released files were exported from our runs
 ```
@@ -28,9 +28,9 @@ pip install -r requirements.txt
 ```
 
 ## 1. Data
-- **CBIS-DDSM-IRMA**: download CBIS-DDSM (TCIA) and the DDSM release of RWTH Aachen, then
-  `python scripts/convert_cbis_ddsm_irma.py --cbis-root ... --irma-root ... --out <D>`.
-  See `data/cbis_ddsm_irma/README.md`.
+- **MV-DDSM**: download CBIS-DDSM (TCIA) and the DDSM release of RWTH Aachen, then
+  `python scripts/convert_mv_ddsm.py --cbis-root ... --irma-root ... --out <D>`.
+  See `data/mv_ddsm/README.md`.
 - **VinDr-Mammo** and **INbreast**: obtain them from their providers (PhysioNet credentialed access,
   INbreast on request). *[preprocessing and geometry scripts: to be added]*
 
@@ -43,7 +43,7 @@ python scripts/extract_candidates.py --split train --images <D>/images_2048 \
 ```
 - `--birads-min 3` gives the BI-RADS >= 3 annotation scope of the `*_b3` pipelines.
 - `--detections` takes precomputed Deformable DETR outputs instead of `--detector`.
-- Every pipeline uses the same appearance encoder: the patch classifier trained on CBIS-DDSM-IRMA.
+- Every pipeline uses the same appearance encoder: the patch classifier trained on MV-DDSM.
 
 ## 3. Training
 ```
@@ -71,7 +71,7 @@ For each setting, the script reports:
 Protocol:
 - only paired views are evaluated;
 - the unannotated view of a positive breast is used as a partner but not scored;
-- VinDr models tested on CBIS-DDSM-IRMA / INbreast use the strict BI-RADS convention: BI-RADS <= 2
+- VinDr models tested on MV-DDSM / INbreast use the strict BI-RADS convention: BI-RADS <= 2
   masses are background, as in VinDr annotations.
 
 ## Reproducibility checks (done before release)

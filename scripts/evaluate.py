@@ -7,7 +7,7 @@ Significance: paired breast-level bootstrap (1000 resamples); Holm correction ov
 "MAMM-MD vs product" comparisons.
 
     python scripts/evaluate.py --caches <root>/caches --checkpoints <root>/checkpoints \
-        --annotations data/cbis_ddsm_irma/annotations.json --inbreast-csv "<INbreast>/INbreast.csv" \
+        --annotations data/mv_ddsm/annotations.json --inbreast-csv "<INbreast>/INbreast.csv" \
         --out results/paper_results.json
 """
 from __future__ import annotations
@@ -24,7 +24,7 @@ import yaml
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from mammd import cen  # noqa: E402
-from mammd.data.cbis_ddsm_irma import load_annotations  # noqa: E402
+from mammd.data.mv_ddsm import load_annotations  # noqa: E402
 from mammd.eval.protocol import evaluation_views, holm, large_of, lesion_status, paired_bootstrap, per_view  # noqa: E402
 from mammd.head import MAMMMDHead  # noqa: E402
 from mammd.rescoring import partner_support, predict, predict_ensemble, product_scores  # noqa: E402
@@ -50,7 +50,7 @@ def main():
     ap.add_argument("--config", default=os.path.join(HERE, "..", "configs", "paper.yaml"))
     ap.add_argument("--caches", required=True)
     ap.add_argument("--checkpoints", required=True)
-    ap.add_argument("--annotations", default=os.path.join(HERE, "..", "data", "cbis_ddsm_irma", "annotations.json"))
+    ap.add_argument("--annotations", default=os.path.join(HERE, "..", "data", "mv_ddsm", "annotations.json"))
     ap.add_argument("--inbreast-csv", default=None)
     ap.add_argument("--only", nargs="*", default=None, help="names of evaluations to run")
     ap.add_argument("--no-bootstrap", action="store_true")

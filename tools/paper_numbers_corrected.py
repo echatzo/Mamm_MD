@@ -1,7 +1,7 @@
-"""All numbers of the paper for the corrected CBIS-DDSM-IRMA (`corrected=True`) (provenance only).
+"""All numbers of the paper for the corrected MV-DDSM (`corrected=True`) (provenance only).
 
-- CBIS-DDSM-IRMA test: corrected caches for every pipeline tested on it.
-- Pipelines trained on CBIS-DDSM-IRMA: heads and CEN retrained on corrected train/val caches
+- MV-DDSM test: corrected caches for every pipeline tested on it.
+- Pipelines trained on MV-DDSM: heads and CEN retrained on corrected train/val caches
   (same recipe as the paper); detectors and encoder are those of the paper.
 - Pipelines trained on VinDr-Mammo: the paper's heads and CEN.
 - VinDr-Mammo and INbreast test sets: unchanged caches.
@@ -14,7 +14,7 @@ import argparse, json, os, sys
 import numpy as np, torch, yaml
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from mammd import cen
-from mammd.data.cbis_ddsm_irma import load_annotations, mass_detection_views
+from mammd.data.mv_ddsm import load_annotations, mass_detection_views
 from mammd.eval.froc import froc_curve, sensitivity_at
 from mammd.eval.protocol import evaluation_views, holm, large_of, lesion_status, paired_bootstrap, per_view
 from mammd.head import MAMMMDHead
@@ -32,7 +32,7 @@ ap.add_argument("--out", required=True)
 a = ap.parse_args()
 os.makedirs(a.out, exist_ok=True)
 cfg = yaml.safe_load(open(os.path.join(HERE, "..", "configs", "paper.yaml")))
-ANN = load_annotations(os.path.join(HERE, "..", "data", "cbis_ddsm_irma", "annotations.json"))
+ANN = load_annotations(os.path.join(HERE, "..", "data", "mv_ddsm", "annotations.json"))
 
 
 def view_birads(test, recs):
